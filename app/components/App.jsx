@@ -30,10 +30,6 @@ export default class App extends React.Component {
     }
     addNote = () => {
         this.setState({
-            /*notes: this.state.notes.concat([{
-                id: uuid.v4(),
-                task: 'New task'
-            }])*/
             notes: [...this.state.notes, {id: uuid.v4(), task: 'New task'}]
         }, () => console.log('set state!'));
     };
