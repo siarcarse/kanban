@@ -1,0 +1,42 @@
+
+import uuid from 'node-uuid';
+import alt from '../libs/alt';
+import NoteActions from '../actions/NoteActions';
+
+class NoteStore {
+    constructor() {
+        this.bindActions(NoteActions);
+
+        this.notes = [];
+    }
+    create(note) {
+        const notes = this.notes;
+
+        note.id = uuid.v4();
+
+        this.setState({
+            notes: notes.concat(note)
+            //notes: [...notes, { task: 'New task' }]
+        });
+    }
+    update(updatedNote) {
+        const notes = this.notes.map(note => {
+            if (note.id === updatedNote.id) {
+                // Example: {}, {a: 5, b: 3}, {a: 17} -> {a: 17, b: 3}
+                return Object.assign({}, note, updatedNote);
+            }
+
+            return note;
+        });
+
+        // This is same as `this.setState({notes: notes})`
+        this.setState({ notes });
+    }
+    delete(id) {
+        this.setState({
+            notes: this.notes.filter(note => note.id !== id)
+        });
+    }
+}
+
+export default alt.createStore(NoteStore, 'NoteStore');
